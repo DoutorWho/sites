@@ -1,0 +1,86 @@
+.nav {
+    display: flex;
+    justify-content: space-between;
+    border-top: 7px solid blue;
+    border-bottom: 7px solid blue;
+    background-color: pink;
+    color: #401519;
+    height: 190px;
+    position: relative; /* Adicionado para permitir o posicionamento absoluto do carrinho */
+}
+.nav img {
+    position: absolute; /* Permite que você posicione o carrinho em qualquer lugar dentro do .nav */
+    right: 20px; /* Ajuste conforme necessário para mover o carrinho mais para a direita */
+    align-self: center;
+    width: 100px;
+    height: 100px;
+}
+
+#a1 {
+    position: absolute; /* Permite que você posicione o carrinho em qualquer lugar dentro do .nav */
+    right: 20px; /* Ajuste conforme necessário para mover o carrinho mais para a direita */
+    align-self: center;
+    width: 100px;
+    height: 100px;
+}
+.navegador {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center; /* Centraliza o texto horizontalmente */
+    margin: auto; /* Centraliza o texto verticalmente */
+}
+body {
+    font-family: Arial, sans-serif;
+}
+.produtos {
+    width: 200px;
+    padding: 10px;
+    margin: 10px;
+    float: left;
+    text-align: center;
+    background-color: green;
+    color: #401519;
+
+}
+
+.tabelas {
+    border-bottom: 3px solid pink;
+    color: blue;
+}
+
+.imagem{
+    width: 70%;
+    height: 70%;
+    border-radius: 50%;
+}
+
+hr {
+    height: 10px;
+    background: blue;
+}
+#hr1 {
+    height: 10px;
+    background: black;
+}
+
+#text1 {
+    text-align: center;
+    font-size: 30px;
+}
+#text2 {
+    text-align: center;
+    font-size: 20px;
+}
+.ordenar {
+    font-size: 18px;
+    text-indent: 1em;
+}
+
+#hr1 {
+    width: 18000px;
+}
+footer {
+    text-align: center;
+    font-size: 25px;
+}

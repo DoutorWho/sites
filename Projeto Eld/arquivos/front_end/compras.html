@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="css/compras.css">
+    <title>Delicious Sweets</title>
+</head>
+<body>
+    <nav class='nav'>
+        <div class='navegador'>
+            <h1 id="text1">Delicious Sweets</h1>
+            <h2 id="text2">Acesse nossas abas</h2>
+            ●<a href="http://127.0.0.1:5000/pagina_inicial"> Página Inicial</a>
+            ●<a href="http://127.0.0.1:5000/sobre"> História da Loja</a>
+            ●<a href="http://127.0.0.1:5000/cadastro"> Cadastro</a>
+        </div>
+        <a href="www.google.com.br" id="a1"><img src="{{ url_for('static', filename='img/compras/carrinho.png') }}"></a>
+    </nav>
+  <main>
+    <div class="tabelas">
+        <h1>Produtos que você pode gostar</h1>
+    </div>
+
+
+    <div class="tabelas">
+        <h1>Veja outros produtos</h1>
+    </div>
+        <h2>Doces</h2>
+        {% for produto in produtos %}
+        <div>
+            <div class="produtos">
+                <form action="/carrinho/submit_form" method="post">
+                    <h2>{{ produto[1] }}</h2>
+                    <p>{{ produto[2] }}</p>
+                    <img class  = 'imagem' src="{{ url_for('static', filename='img/compras/' + produto[3]) }}" alt="Imagen não carregada">
+                    <input type="number" name="quantidade" placeholder="Digite a quantidade">
+                    <p>R${{ produto[4] }},00</p>
+                    <input type="hidden" name="preco" value="{{ produto[4] }}">
+                    <button>Adicionar ao carinho</button>
+                </form>
+            </div>
+        {% endfor %}
+        </div>
+
+    </main>
+
+
+    </main>
+    <footer>
+        <hr id="hr1">
+        Todos os direitos reservados
+    </footer>
+</body>
+</html>

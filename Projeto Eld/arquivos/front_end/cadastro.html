@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro.css') }}">
+    <title>Cadastro de Usuário</title>
+</head>
+<body>
+    <nav>
+        <h1 id="text1">Login e cadastro do Usuário</h1>
+        <h2 id="text2">Cadastre seus dados</h2>
+        <div class="ordenar">
+            ●<a href="http://127.0.0.1:5000/pagina_inicial"> Página Inicial</a>
+            ●<a href="http://127.0.0.1:5000/sobre"> História da Loja</a>
+            ●<a href="http://127.0.0.1:5000/cadastro"> Cadastro</a>
+        </div>
+    </nav>
+    <main>
+        <form action="/cadastro/submit_form" method="post">
+            <hr id='hr1'>
+            <label for="nome">Nome:</label>
+            <input type="text" name="nome" placeholder="Digite seu nome...">
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" placeholder="Digite seu email...">
+            <label for="sexo">Sexo:</label>
+            <select name="sexo">
+                <option value="masculino">Masculino</option>
+                <option value="Feminino">Feminino</option>
+            </select>
+            <label for="senha">Senha:</label>
+            <input type="text" name="senha" id="senha" placeholder="Digite sua senha...">
+            <label for="senha">Confirmar senha:</label>
+            <input type="text" name="confirmasenha" id="senha" placeholder="Confirme sua senha...">
+            {% if mensagem_erro_cadastro != None %}
+                <p>{{ mensagem_erro_cadastro }}</p>
+            {% endif %}
+            <button type="submit">Enviar</button>
+            <hr id='hr1'>
+        </form>
+        <h1>Tem uma conta? Faça login!</h1>
+    <form action="/login/submit_form" method="post">
+        <hr id="hr2">
+        <label for='email'>Email:</label>
+        <input type="email" name="email">
+        <label for="senha">Senha:</label>
+        <input type="text" name="senha">
+        {% if mensagem_erro_login != None %}
+            <p>{{ mensagem_erro_login }}</p>
+        {% endif %}
+        <button type="submit">Enviar</button>
+        <hr id="hr2">
+    </form>
+    </main>
+    <footer>
+        <hr id="hr1">
+        Todos os direitos reservados
+    </footer>
+</body>
+</html>

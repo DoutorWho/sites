@@ -1,0 +1,31 @@
+#t1 {
+    font-size: 25px;
+}
+#img1 {
+    text-align: center;
+    width: 500px;
+    height: 300px;
+}
+#hr1 {
+    height: 10px;
+    background-color: black;
+}
+nav {
+    display: flow;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-top: 7px solid blue;
+    border-bottom: 7px solid blue;
+    background-color: pink;
+    color: #401519;
+    height: 160px;
+}
+main {
+
+    font-size: 20px;
+}
+footer {
+    text-align: center;
+    font-size: 25px;
+}

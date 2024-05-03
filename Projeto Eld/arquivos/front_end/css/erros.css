@@ -1,0 +1,26 @@
+.nav {
+    display: flow;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-top: 7px solid blue;
+    border-bottom: 7px solid blue;
+    background-color: pink;
+    color: #401519;
+    height: 280px;
+}
+.nav img {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 230px;
+    height: 180px;
+
+}
+#hr1 {
+    width: 18000px;
+}
+footer {
+    text-align: center;
+    font-size: 25px;
+}
