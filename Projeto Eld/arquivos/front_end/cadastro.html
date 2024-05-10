@@ -7,50 +7,61 @@
     <title>Cadastro de Usuário</title>
 </head>
 <body>
-    <nav>
-        <h1 id="text1">Login e cadastro do Usuário</h1>
-        <h2 id="text2">Cadastre seus dados</h2>
-        <div class="ordenar">
-            ●<a href="http://127.0.0.1:5000/pagina_inicial"> Página Inicial</a>
-            ●<a href="http://127.0.0.1:5000/sobre"> História da Loja</a>
-            ●<a href="http://127.0.0.1:5000/cadastro"> Cadastro</a>
-        </div>
+    <nav class="nav">
+        <img id="logo" src="{{ url_for('static', filename='img/pagina_inicial/logo.png') }}">
     </nav>
     <main>
-        <form action="/cadastro/submit_form" method="post">
-            <hr id='hr1'>
-            <label for="nome">Nome:</label>
-            <input type="text" name="nome" placeholder="Digite seu nome...">
-            <label for="email">Email:</label>
-            <input type="email" name="email" id="email" placeholder="Digite seu email...">
-            <label for="sexo">Sexo:</label>
-            <select name="sexo">
-                <option value="masculino">Masculino</option>
-                <option value="Feminino">Feminino</option>
-            </select>
+        {% if status == 'cadastro' %}
+            <h2 id="text2">Cadastre seus dados</h2>
+            <hr id="hrnormal">
+            <form action="/cadastro/submit_form" method="post" enctype="multipart/form-data">
+                <label for="nome">Nome:</label>
+                <input type="text" name="nome" placeholder="Digite seu nome...">
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email" placeholder="Digite seu email...">
+                <label for="sexo">Sexo:</label>
+                <select name="sexo">
+                    <option value="Masculino">Masculino</option>
+                    <option value="Feminino">Feminino</option>
+                </select>
+                <label for="forma_de_pagamento">Forma de pagamento: </label>
+                <select name="forma_de_pagamento">
+                    <option value="pix">PIX</option>
+                    <option value="cartao">Cartão de Crédito à vista</option>
+                    <option value="boleto">Boleto</option>
+                </select>
+                <label for="preferencia">Preferência</label>
+                <select name="preferencia">
+                    <option value="doces_quadrados">Doces Quadrados</option>
+                    <option value="doces_frescos">Doces Frescos</option>
+                    <option value="doces_epicos">Doces Épicos</option>
+                </select>
+                <label for="foto">Foto de perfil: </label>
+                <input type="file" name="foto" placeholder="Mande sua foto">
+                <br>
+                <label for="senha">Senha:</label>
+                <input type="text" name="senha" id="senha" placeholder="Digite sua senha...">
+                <label for="senha">Confirmar senha:</label>
+                <input type="text" name="confirmasenha" id="senha" placeholder="Confirme sua senha...">
+                {% if mensagem_erro_cadastro != None %}
+                    <p id="erro">{{ mensagem_erro_cadastro }}</p>
+                {% endif %}
+                <button type="submit">Enviar</button>
+            </form>
+        {% elif status == 'login' %}
+            <h2>Faça login!</h2>
+        <form action="/login/submit_form" method="post">
+            <hr id="hr2">
+            <label for='email'>Email:</label>
+            <input type="email" name="email">
             <label for="senha">Senha:</label>
-            <input type="text" name="senha" id="senha" placeholder="Digite sua senha...">
-            <label for="senha">Confirmar senha:</label>
-            <input type="text" name="confirmasenha" id="senha" placeholder="Confirme sua senha...">
-            {% if mensagem_erro_cadastro != None %}
-                <p>{{ mensagem_erro_cadastro }}</p>
+            <input type="text" name="senha">
+            {% if mensagem_erro_login != None %}
+                <p id="erro">{{ mensagem_erro_login }}</p>
             {% endif %}
             <button type="submit">Enviar</button>
-            <hr id='hr1'>
         </form>
-        <h1>Tem uma conta? Faça login!</h1>
-    <form action="/login/submit_form" method="post">
-        <hr id="hr2">
-        <label for='email'>Email:</label>
-        <input type="email" name="email">
-        <label for="senha">Senha:</label>
-        <input type="text" name="senha">
-        {% if mensagem_erro_login != None %}
-            <p>{{ mensagem_erro_login }}</p>
-        {% endif %}
-        <button type="submit">Enviar</button>
-        <hr id="hr2">
-    </form>
+    {% endif %}
     </main>
     <footer>
         <hr id="hr1">

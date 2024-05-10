@@ -3,9 +3,65 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Loja</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/carrinho.css') }}">
+    <title>Carrinho</title>
 </head>
 <body>
-    <p>Os dados são como exemplo {{ lista }}</p>
+    <nav class='nav'>
+        <img id="logo" src="{{ url_for('static', filename='img/pagina_inicial/logo.png') }}">
+        <a href="/sobre" id="sobre"><img src="{{ url_for('static', filename='img/pagina_inicial/historia_da_loja.png')}}"></a>
+        <a href="/perfil" id="perfil"><img src="{{ url_for('static', filename='img/pagina_inicial/perfil.png') }}"></a>
+        <h2 id="text2">Bem-vindo(a) {{ usuario }}! Acesse nossas abas</h2>
+    </nav>
+
+    <main>
+        <h1>Seu carrinho</h1>
+        {% if lista == [] %}
+            <h1>Você não tem itens adicionados ao seu carrinho!</h1>
+        {% else %}
+                <div class="tabelas">
+                    <h1>Produtos adicionados ao seu carrinho!</h1>
+                </div>
+                    <div class="status">
+                        {% for produto in lista %}
+                        <div class="produtos">
+                            <form action="/carrinhoform/submit_form" method="post">
+                                <h2>{{ produto[2] }}</h2>
+                                <p>{{ produto[3] }}</p>
+                                <img class  = 'imagem' src="{{ url_for('static', filename='img/compras/' + produto[4]) }}" alt="Imagen não carregada">
+                                <p>Tipo do produto: {{ produto[1].replace('_', ' ').title() }}</p>
+                                <p>R${{ produto[5] }}</p>
+                                <p>Quantidade: {{ produto[6] }}</p>
+                                <p>Total a pagar: R${{ ('%.2f' | format(((produto[5].replace(',','.') | float) * produto[6]))).replace('.', ',') }}</p>
+                                <input type="hidden" name="idCarrinho", value="{{ produto[0] }}">
+                                <input type="hidden" name="preco" value="{{ produto[5] }}">
+                                <input type="hidden" name="quantidade" value="{{ produto[6] }}">
+                                <input type="submit" name="comprar" value="Compra">
+                                <hr>
+                                <input type="submit" name="excluir" value="Excluir">
+                            </form>
+                        </div>
+                        {% endfor %}
+                    </div>
+        {% endif %}
+    {% if status != None %}
+        <div>
+            <hr>
+            <h1>Status da sua compra!</h1>
+            {% if status == 'compra_sucesso' %}
+                <h1>Compra realizada com sucesso!</h1>
+            {% elif status == 'excluido' %}
+                <h1>Produto excluído com sucesso!</h1>
+            {% elif status == 'sem_dinheiro' %}
+                <h1>Você não tem dinheiro para comprar isso!</h1>
+            {% endif %}
+        </div>
+    {% endif %}
+    </main>
+
+    <footer>
+        <hr id="hr1">
+        Todos os direitos reservados
+    </footer>
 </body>
 </html>

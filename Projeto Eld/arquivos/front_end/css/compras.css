@@ -33,21 +33,6 @@
 body {
     font-family: Arial, sans-serif;
 }
-.produtos {
-    width: 200px;
-    padding: 10px;
-    margin: 10px;
-    float: left;
-    text-align: center;
-    background-color: green;
-    color: #401519;
-
-}
-
-.tabelas {
-    border-bottom: 3px solid pink;
-    color: blue;
-}
 
 .imagem{
     width: 70%;

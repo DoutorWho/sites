@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/perfil.css')}}">
+    <title>Perfil</title>
+</head>
+<body>
+    <nav class="nav">
+        <div class="navegador">
+            <img id="logo" src="{{ url_for('static', filename='img/pagina_inicial/logo.png') }}">
+            <h2 id="text2">Bem-vindo(a) {{ usuario }}! ao seu perfil!</h2>
+        </div>
+        <a href="/" id="pagina"><img src="{{ url_for('static', filename='img/pagina_inicial/pagina_inicial.jpg')}}"></a>
+        <img class="foto_perfil" src="{{url_for('static', filename=imagem)}}"></a>
+    </nav>
+    <main>
+        <section class="perfil">
+            <div class="info-usuario">
+                <div class="imagem-usuario">
+                    <img src="{{url_for('static', filename=imagem)}}">
+                </div>
+                <h2>Nome: {{ usuario }}</h2>
+                <h2>Sexo: {{ sexo }}</h2>
+                <h2>Email: {{ email }}</h2>
+                <h2>Forma de pagamento: {{ forma }}</h2>
+                <h2>Preferência: {{ preferencia.replace('_',' ').title() }}</h2>
+                <h2>Dinheiro em saldo: R${{ ('%.2f' | format(((dinheiro.replace(',','.')) | float)) | string).replace('.',',') }}</h2>
+            </div>
+            <div class="acoes-usuario">
+                <form action="/alterar_perfil/submit_form" method="post">
+                    <label>O que você deseja?</label>
+                    <select name="status_conta">
+                        <option value="alterar">Alterar dados da conta</option>
+                        <option value="excluir">Excluir a conta</option>
+                        <option value="sair">Sair da conta</option>
+                    </select>
+                    <input type="hidden" name="tipo" value="normal">
+                    <button type="submit">Enviar</button>
+                </form>
+            </div>
+        </section>
+        <section class="alterar-dados">
+            {% if status == 'alterar_sucesso' %}
+                <h1 class="sucesso">Conta alterada com sucesso!</h1>
+            {% elif status != None %}
+                <form action="/alterar_perfil/submit_form" method="post" enctype="multipart/form-data">
+                    <hr>
+                    <h1>Digite os novos dados!</h1>
+                    <hr>
+                    <input type="hidden" name="tipo" value="novo_perfil">
+                    <label for='nome'>Nome: </label>
+                    <input type="text" name="nome">
+                    <label form="sexo">Sexo</label>
+                    <select name="sexo">
+                        <option value="Masculino">Masculino</option>
+                        <option value="Feminino">Feminino</option>
+                    </select>
+                    <label for="forma_de_pagamento">Forma de pagamento: </label>
+                    <select name="forma_de_pagamento">
+                        <option value="pix">PIX</option>
+                        <option value="cartao">Cartão de Crédito à vista</option>
+                        <option value="boleto">Boleto</option>
+                    </select>
+                    <label for="preferencia">Preferência</label>
+                    <select name="preferencia">
+                        <option value="doces_quadrados">Doces Quadrados</option>
+                        <option value="doces_frescos">Doces Frescos</option>
+                        <option value="doces_epicos">Doces Épicos</option>
+                    </select>
+                    <label for="foto">Foto de perfil: </label>
+                    <input type="file" name="foto" placeholder="Mande sua foto">
+                    <br>
+                    <label for="senha">Nova senha:</label>
+                    <input type="text" name="senha" id="senha" placeholder="Digite sua senha...">
+                    <button type="submit">Confirmar</button>
+                </form>
+            {% endif %}
+        </section>
+    </main>
+
+
+    <footer>
+        <hr id="hr1">
+        Todos os direitos reservados
+    </footer>
+</body>
+</html>

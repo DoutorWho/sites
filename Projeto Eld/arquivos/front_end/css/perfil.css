@@ -1,0 +1,191 @@
+.nav {
+    display: flex;
+    justify-content: space-between;
+    border-top: 7px solid blue;
+    border-bottom: 7px solid blue;
+    background-color: #F0E68C;
+    color: #401519;
+    height: 100px;
+    position: relative; /* Adicionado para permitir o posicionamento absoluto do carrinho */
+}
+.nav img {
+    position: absolute;
+    right: 20px;
+    top: 50%; /* Adicionado para centralizar verticalmente */
+    transform: translateY(-50%); /* Adicionado para centralizar verticalmente */
+    width: 100px;
+    height: 100px;
+}
+
+#logo {
+    position: absolute;
+    left: 20px;
+    top: 50%; /* Adicionado para centralizar verticalmente */
+    transform: translateY(-50%); /* Adicionado para centralizar verticalmente */ 
+    width: 140px; /* Ajuste este valor conforme necessário */
+    height: 80px; /* Ajuste este valor conforme necessário */
+}
+.navegador {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: auto;
+}
+
+.foto_perfil {
+    position: absolute;
+    right: 20px;
+    top: 15%; /* Adicionado para centralizar verticalmente */
+    transform: translateY(-50%); /* Adicionado para centralizar verticalmente */
+    border-radius: 50%;
+    width: 80%;
+    height: 80%;
+}
+#perfil {
+    position: absolute;
+    right: 20px;
+    top: 15%; /* Adicionado para centralizar verticalmente */
+    transform: translateY(-50%); /* Adicionado para centralizar verticalmente */
+    border-radius: 50%;
+}
+#pagina {
+    position: absolute;
+    left: 380px;
+    top: 50%; /* Adicionado para centralizar verticalmente */
+    transform: translateY(-50%); /* Adicionado para centralizar verticalmente */ 
+}
+
+#pagina img {
+    width: 170px; /* Ajuste este valor conforme necessário */
+    height: 80px; /* Ajuste este valor conforme necessário */
+}
+
+#text1 {
+    text-align: center;
+    font-size: 30px;
+}
+#text2 {
+    text-align: center;
+    font-size: 20px;
+}
+/* parte do body*/
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.perfil {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    gap: 20px;
+}
+
+.info-usuario {
+    flex: 2;
+    color: #333;
+    background-color: green;
+    padding: 20px;
+    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.imagem-usuario {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 250px;
+    height: 250px;
+}
+
+.imagem-usuario img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.acoes-usuario {
+    flex: 1;
+    background-color: #e0e0e0;
+    color: #333;
+    padding: 20px;
+    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.1);
+}
+
+.acoes-usuario form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.acoes-usuario button {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.acoes-usuario button:hover {
+    background-color: #0056b3;
+}
+
+.alterar-dados {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.alterar-dados h1 {
+    color: #007BFF;
+}
+
+.alterar-dados form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 50%;
+}
+
+.alterar-dados form input, .alterar-dados form select {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+}
+
+.alterar-dados form button {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.alterar-dados form button:hover {
+    background-color: #0056b3;
+}
+
+.sucesso {
+    color: green;
+}
+
+
+/* Footer */
+#hr1 {
+    width: 100%;
+}
+footer {
+    text-align: center;
+    font-size: 25px;
+}
+
