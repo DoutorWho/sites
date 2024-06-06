@@ -1,81 +1,35 @@
-.nav {
-    display: flex;
-    justify-content: center; /* Alterado de space-between para center */
-    align-items: center; /* Adicionado para centralizar verticalmente */
-    border-top: 7px solid blue;
-    border-bottom: 7px solid blue;
-    background-color: #F0E68C;
-    color: #401519;
-    height: 100px;
-    position: relative;
-}
-
-.nav img {
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 100px;
-    height: 100px;
-}
-
-#logo {
-    position: absolute;
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 140px;
-    height: 80px;
-}
-
-#text2 {
-    text-align: center;
-    font-size: 20px;
-}
-
-#pagina {
-    position: absolute;
-    left: 380px;
-    top: 50%; /* Adicionado para centralizar verticalmente */
-    transform: translateY(-50%); /* Adicionado para centralizar verticalmente */ 
-}
-
-#pagina img {
-    width: 170px; /* Ajuste este valor conforme necessário */
-    height: 80px; /* Ajuste este valor conforme necessário */
-}
-
-
-
-
-#t1 {
-    font-size: 25px;
-}
-#img1 {
-    text-align: center;
-    width: 500px;
-    height: 300px;
-}
-#hr1 {
-    height: 10px;
-    background-color: black;
-}
 /* A parte do body */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+}
+
 main {
     font-size: 20px;
     color: #333;
     line-height: 1.6;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    margin: 20px;
 }
 
 .header {
     text-align: center;
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: #007BFF;
+    color: #fff;
+    border-radius: 10px;
 }
 
 .header h1 {
-    color: #333;
     font-size: 2em;
+}
+
+#img1 {
+    width: 30%; /* Ajuste este valor para alterar o tamanho da imagem */
+    height: 30%;
 }
 
 .story-list {
@@ -84,7 +38,7 @@ main {
 
 .story-title {
     font-size: 1.5em;
-    color: #007BFF;
+    color: #dc3545;
     margin-top: 20px;
 }
 
@@ -94,11 +48,8 @@ main {
 
 .highlight {
     color: #dc3545;
+    font-weight: bold;
 }
 
 
-/* A parte do footer*/
-footer {
-    text-align: center;
-    font-size: 25px;
-}
+

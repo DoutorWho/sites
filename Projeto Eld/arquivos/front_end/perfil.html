@@ -1,89 +1,135 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/perfil.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/perfil.css')}}"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="{{ url_for('static', filename='script/perfil.js') }}"></script>
     <title>Perfil</title>
+    {% extends 'nav_html.html' %}
 </head>
 <body>
-    <nav class="nav">
-        <div class="navegador">
-            <img id="logo" src="{{ url_for('static', filename='img/pagina_inicial/logo.png') }}">
-            <h2 id="text2">Bem-vindo(a) {{ usuario }}! ao seu perfil!</h2>
-        </div>
-        <a href="/" id="pagina"><img src="{{ url_for('static', filename='img/pagina_inicial/pagina_inicial.jpg')}}"></a>
-        <img class="foto_perfil" src="{{url_for('static', filename=imagem)}}"></a>
-    </nav>
-    <main>
-        <section class="perfil">
-            <div class="info-usuario">
-                <div class="imagem-usuario">
-                    <img src="{{url_for('static', filename=imagem)}}">
+    {% block pagina_inicial %} 
+    {% endblock %}
+    {% block padrao_sem_perfil %} 
+    {% endblock %}
+    {% block padrao_com_perfil %}
+        {{ super() }}
+        <main>
+            <section class="perfil">
+                <div class="info-usuario">
+                    <div class="imagem-usuario">
+                        <img src="{{url_for('static', filename=informacoes_usuarios['foto_de_perfil']) }}">
+                    </div>
+                    <div class="dados-usuario">
+                        {% if status == True %}
+                            <div class="notification" onclick="mostrarIframe()">
+                                <span class="notification-icon"><i class="fas fa-bell"></i></span>
+                                <span class="notification-count">{{ informacoes_usuarios['quantidade_notificacao'] }}</span>
+                                <span class="notification-span"></span>
+                            </div>
+                            <h2>{{ informacoes_usuarios['nome_usuario'] }}</h2>
+                            <h4>{{ informacoes_usuarios['nome_perfil'] }}</h4>
+                            <p>Sexo: {{ informacoes_usuarios['sexo'] }}</p>
+                            <p>Email: {{ informacoes_usuarios['email'] }}</p>
+                            <p>Forma de pagamento: {{ informacoes_usuarios['forma_de_pagamento'] }}</p>
+                            <p>Cidade: {{ informacoes_usuarios['cidade'].title() }}</p>
+                            <p>Total de comentários: {{ informacoes_usuarios['total_de_comentario'] }}</p>
+                            <p>
+                                {% set produtos = informacoes_usuarios['avaliacao'] %}
+                                {% set quantidade_produtos = len(produtos) | int%}
+                                {% if quantidade_produtos == 0 %}
+                                    <span>Você avaliou nenhum produto!</span> 
+                                {% elif quantidade_produtos == 1 %}
+                                    <span>Você avaliou o produto:</span>
+                                {% else %}
+                                    <span>Você avaliou os produtos:</span> 
+                                {% endif %}
+                                {% if quantidade_produtos > 0 %}
+                                    {% for produto in produtos %}
+                                        <a href="/produto/{{ produto[1] }}">{{ produto[0] }}</a>
+                                    {% endfor %}
+                                {% endif %}
+                            </p>
+                            <p>Status de compra: <a href="/compras">Status das compras</a></p>
+                        {% else %}
+                            <h2>{{ informacoes_usuarios['nome_usuario'] }}</h2>
+                            <h4>{{ informacoes_usuarios['nome_perfil'] }}</h4>
+                            <p>Sexo: {{ informacoes_usuarios['sexo'] }}</p>
+                            <p>Total de comentários: {{ informacoes_usuarios['total_de_comentario'] }}</p>
+                            <p>
+                                {% set produtos = informacoes_usuarios['avaliacao'] %}
+                                {% set quantidade_produtos = len(produtos) | int%}
+                                    {% if quantidade_produtos == 0 %}
+                                        <span>Você avaliou nenhum produto!</span> 
+                                    {% elif quantidade_produtos == 1 %}
+                                        <span>Você avaliou o produto:</span>
+                                    {% else %}
+                                        <span>Você avaliou os produtos:</span> 
+                                    {% endif %}
+                                    {% if quantidade_produtos > 0 %}
+                                        {% for produto in produtos %}
+                                            <a href="/produto/{{ produto[1] }}">{{ produto[0] }}</a>
+                                        {% endfor %}
+                                {% endif %}
+                            </p>
+                        {% endif %}
+                    </div>
                 </div>
-                <h2>Nome: {{ usuario }}</h2>
-                <h2>Sexo: {{ sexo }}</h2>
-                <h2>Email: {{ email }}</h2>
-                <h2>Forma de pagamento: {{ forma }}</h2>
-                <h2>Preferência: {{ preferencia.replace('_',' ').title() }}</h2>
-                <h2>Dinheiro em saldo: R${{ ('%.2f' | format(((dinheiro.replace(',','.')) | float)) | string).replace('.',',') }}</h2>
-            </div>
-            <div class="acoes-usuario">
-                <form action="/alterar_perfil/submit_form" method="post">
-                    <label>O que você deseja?</label>
-                    <select name="status_conta">
-                        <option value="alterar">Alterar dados da conta</option>
-                        <option value="excluir">Excluir a conta</option>
-                        <option value="sair">Sair da conta</option>
-                    </select>
-                    <input type="hidden" name="tipo" value="normal">
-                    <button type="submit">Enviar</button>
-                </form>
-            </div>
-        </section>
-        <section class="alterar-dados">
-            {% if status == 'alterar_sucesso' %}
-                <h1 class="sucesso">Conta alterada com sucesso!</h1>
-            {% elif status != None %}
-                <form action="/alterar_perfil/submit_form" method="post" enctype="multipart/form-data">
-                    <hr>
-                    <h1>Digite os novos dados!</h1>
-                    <hr>
-                    <input type="hidden" name="tipo" value="novo_perfil">
-                    <label for='nome'>Nome: </label>
-                    <input type="text" name="nome">
-                    <label form="sexo">Sexo</label>
-                    <select name="sexo">
-                        <option value="Masculino">Masculino</option>
-                        <option value="Feminino">Feminino</option>
-                    </select>
-                    <label for="forma_de_pagamento">Forma de pagamento: </label>
-                    <select name="forma_de_pagamento">
-                        <option value="pix">PIX</option>
-                        <option value="cartao">Cartão de Crédito à vista</option>
-                        <option value="boleto">Boleto</option>
-                    </select>
-                    <label for="preferencia">Preferência</label>
-                    <select name="preferencia">
-                        <option value="doces_quadrados">Doces Quadrados</option>
-                        <option value="doces_frescos">Doces Frescos</option>
-                        <option value="doces_epicos">Doces Épicos</option>
-                    </select>
-                    <label for="foto">Foto de perfil: </label>
-                    <input type="file" name="foto" placeholder="Mande sua foto">
-                    <br>
-                    <label for="senha">Nova senha:</label>
-                    <input type="text" name="senha" id="senha" placeholder="Digite sua senha...">
-                    <button type="submit">Confirmar</button>
-                </form>
-            {% endif %}
-        </section>
-    </main>
-
-
-    <footer>
-        <hr id="hr1">
-        Todos os direitos reservados
-    </footer>
+                {% if status == True %}
+                    <div class="acoes-usuario">
+                        <iframe id="meuIframe" src="notificacoes?token={{ token }}" width="500" height="350" style="display: none"></iframe>
+                        <form action="/alterar_perfil/submit_form" method="post" id="meuformulario">
+                            <label>O que você deseja?</label>
+                            <select name="status_conta" id="status_conta">
+                                <option value="alterar">Alterar dados da conta</option>
+                                <option value="excluir">Excluir a conta</option>
+                                <option value="sair">Sair da conta</option>
+                            </select>
+                            <input type="hidden" name="tipo" value="normal">
+                            <button type="submit">Enviar</button>
+                        </form>
+                    </div>
+                </section>
+                {% if erro_perfil != None %}
+                    <hr class='divisao'>
+                    <p class="erro_perfil">{{ erro_perfil }}</p>
+                {% endif %}
+                <section class="alterar-dados">
+                    {% if status_perfil == 'alterar_sucesso' %}
+                        <h1 class="sucesso">Conta alterada com sucesso!</h1>
+                    {% elif status_perfil != None %}
+                        <hr class='divisao'>
+                        <form action="/alterar_perfil/submit_form" method="post" enctype="multipart/form-data">
+                            <hr>
+                            <h1>Digite os novos dados!</h1>
+                            <hr>
+                            <input type="hidden" name="tipo" value="novo_perfil">
+                            <label for='nonome_usuariome'>Nome de Usuário: </label>
+                            <input type="text" name="nome_usuario" required>
+                            <label for="">Cidade: </label>
+                            <input type="cidade" name="cidade" required>
+                            <label for="foto">Foto de perfil: </label>
+                            <div class="image-upload">
+                                <label for="foto">
+                                    <span id="upload-text">Mande sua foto</span>
+                                    <img id="preview" src="https://via.placeholder.com/150" alt="Sua foto" />
+                                </label>
+                                <input id="foto" type="file" name="foto" required>
+                            </div>
+                            <br>
+                            <label for="senha">Nova senha:</label>
+                            <input type="password" name="senha" id="senha" placeholder="Digite sua senha..." required>
+                            <button type="submit">Confirmar</button>
+                        </form>
+                    {% endif %}
+                </section>
+                {% endif %}
+            </main>
+    {% endblock %}
+    {% block footer %}
+        {{ super() }}
+    {% endblock %}
 </body>
 </html>

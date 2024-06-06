@@ -3,99 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link rel="stylesheet" href="{{ url_for('static', filename='css/pagina_inicial.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pagina_inicial.css') }}">
+    <script src="{{ url_for('static', filename='script/pagina_inicial.js') }}"></script>
     <title>Delicious Sweets</title>
+    {% extends 'nav_html.html' %}
 </head>
 <body>
-    <nav class='nav'>
-        <div class='navegador'>
-            <img id="logo" src="{{ url_for('static', filename='img/pagina_inicial/logo.png') }}">
-            <a href="/sobre" id="sobre"><img src="{{ url_for('static', filename='img/pagina_inicial/historia_da_loja.png')}}"></a>
-            {% if usuario != None %}
-                <h2 id="text2">Bem-vindo(a) {{ usuario }}! Acesse nossas abas</h2>
-            {% else %}
-                <h2 id="text2">Bem-vindo(a)! Cadastre-se em nossa loja abaixo!</h2>
-            {% endif %}
-            {% if usuario != None %}
-                <a href="/perfil" id="perfil"><img src="{{ url_for('static', filename='img/pagina_inicial/perfil.png') }}"></a>
-            {% else %}
-                <form id="cadastro" action="/cadastro" method='post'>
-                    <input type="hidden" name="status" value="cadastro">
-                </form>
-                <form id="entrar" action="/cadastro" method='post'>
-                    <input type="hidden" name="status" value="login">
-                </form>
-                <a id="cadastro"><img src="{{ url_for('static', filename='img/pagina_inicial/cadastro.png') }}" onclick="document.getElementById('cadastro').submit();" style="cursor:pointer;"></a>
-                <a id="entrar"><img src="{{ url_for('static', filename='img/pagina_inicial/entrar.png') }}" onclick="document.getElementById('entrar').submit();" style="cursor:pointer;"></a>
-            {% endif %}
-            {%if usuario != None %}
-                <a href="/carrinho" id="carrinho"><img src="{{ url_for('static', filename='img/compras/carrinho.png') }}"></a>
-            {% endif %}
-        </div>
-    </nav>
-    <main>
-        <div id="carousel">
-            <img src="{{ url_for('static', filename='img/pagina_inicial/carousel1.jpg') }}" alt="Imagem 1">
-            <img src="{{ url_for('static', filename='img/pagina_inicial/carousel2.jpg') }}" alt="Imagem 2">
-            <img src="{{ url_for('static', filename='img/pagina_inicial/carousel3.jpg') }}" alt="Imagem 3">
-            <img src="{{ url_for('static', filename='img/pagina_inicial/carousel4.jpg') }}" alt="Imagem 4">
-        </div>
-        <hr>
-        {% if usuario != None %}
-            <div class="frases">
-                <h1>Produtos que você pode gostar</h1>
+    {% block padrao_sem_perfil %}
+    {% endblock %}
+    {% block padrao_com_perfil %} 
+    {% endblock %}
+    {% block pagina_inicial %}
+        {{ super() }}
+        <main>
+            <div id="carousel">
+                <img src="{{ url_for('static', filename='img/pagina_inicial/carousel1.jpg') }}" alt="Imagem 1">
+                <img src="{{ url_for('static', filename='img/pagina_inicial/carousel2.jpg') }}" alt="Imagem 2">
+                <img src="{{ url_for('static', filename='img/pagina_inicial/carousel3.jpg') }}" alt="Imagem 3">
+                <img src="{{ url_for('static', filename='img/pagina_inicial/carousel4.jpg') }}" alt="Imagem 4">
             </div>
-            <h2>Produtos que estão na sua preferência</h2>
-            <div class="preferencia">
-                {% for produto in produtos %}
-                {% if produto[1] == preferencia %}
-                <div>
-                    <div class="produtos">
-                        <form action="addcarrinho/submit_form" method="post">
-                            <h2>{{ produto[2] }}</h2>
-                            <p>{{ produto[3] }}</p>
-                            <img class  = 'imagem' src="{{ url_for('static', filename='img/compras/' + produto[4]) }}" alt="Imagen não carregada">
-                            <p>Tipo do produto: {{ produto[1].replace('_', ' ').title() }}</p>
-                            <input type="number" name="quantidade" min='1' max='100' placeholder="Digite a quantidade" id="number">
-                            <p>R${{ produto[5] }}</p>
-                            <input type="hidden" name="idProduto" value="{{ produto[0] }}">
-                            <button>Adicionar ao carinho</button>
-                        </form>
-                </div>
-            </div>
-                {% endif %}
-                {% endfor %}
-            </div>
-                <div class="frases">
-                    <h1>Veja outros produtos</h1>
-                </div>
-                    <h2>Doces</h2>
+            {% if dados != None %}
+                <hr id="padrao">
+                <h2 class="frases">Produtos que você pode gostar</h2>
+                <div class="preferencia">
                     {% for produto in produtos %}
-                    <div>
-                        <div class="produtos">
-                            <form action="addcarrinho/submit_form" method="post">
-                                <h2>{{ produto[2] }}</h2>
-                                <p>{{ produto[3] }}</p>
-                                <img class  = 'imagem' src="{{ url_for('static', filename='img/compras/' + produto[4]) }}" alt="Imagen não carregada">
-                                <p>Tipo do produto: {{ produto[1].replace('_', ' ').title() }}</p>
-                                <input type="number" name="quantidade" min="1" max="100"  placeholder="Digite a quantidade" id="number">
-                                <p>R${{ produto[5] }}</p>
-                                <input type="hidden" name="idProduto" value="{{ produto[0] }}">
-                                <button>Adicionar ao carinho</button>
-                            </form>
+                    {% if produto[2] in dados %}
+                        <div class="produto">
+                            <a href="/produto/{{ produto[2] }}/{{ produto[0] }}" class="produto-link">
+                                <div class="produtos">
+                                    <h2>{{ produto[2] }}</h2>
+                                    <p id="avaliacao">{{ avaliacao[produto[2]] }}</p>
+                                    <p>{{ produto[3][:28] }}...</p>
+                                    <img class  = 'imagem' src="{{ url_for('static', filename='img/compras/' + produto[5]) }}" alt="Imagen não carregada">
+                                    <p>Tipo do produto: {{ produto[1].replace('_', ' ').title() }}</p>
+                                    <p>R${{ produto[6] }}</p>
+                                    <input type="hidden" name="idProduto" value="{{ produto[0] }}">
+                                </div>
+                            </a>
                         </div>
-                    {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            </div>
+            <section class="vejaprodutos">
+                <div class="frases">
+                    {% if usuario != None %}
+                        <h1>Veja outros produtos</h1>
+                    {% else %}
+                        <h1>Veja os produtos da loja!</h1>
+                    {% endif %}
+                </div>                
+                {% for contagem in range(3) %}
+                    {% set mostrar_produtos = produtos[0:5] if contagem == 0 else produtos[contagem*5:(contagem * 5)+5] %}
+                    <div class="produtos-wrappe">
+                        {% for produto in mostrar_produtos %}
+                        <div class="produto">
+                            <a href="/produto/{{ produto[2] }}/{{ produto[0] }}" class="produto-link">
+                                <div class="produtos">
+                                    <h2>{{ produto[2] }}</h2>
+                                    <p id="avaliacao">{{ avaliacao[produto[2]] }}</p>
+                                    <img class='imagem' src="{{ url_for('static', filename='img/compras/' + produto[5]) }}" alt="Imagen não carregada">
+                                    <p>{{ produto[3][:28] }}...</p>
+                                    <p>Tipo do produto: {{ produto[1].replace('_', ' ').title() }}</p>
+                                    <p>R${{ produto[6] }}</p>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
                     </div>
-        {% else %}
-            <h1>Cadastre-se!</h1>
-            <hr>
-            <p>A loja Delicious Sweets, pioneira na venda de doces agora está com sua loja virtual! Por favor, cadastre-se para acessar nossos milhares de produtos à venda!</p>
-        {% endif %}
-
-    </main>
-    <footer>
-        <hr id="hr1">
-        Todos os direitos reservados
-    </footer>
+                {% endfor %}
+            </section>
+                
+        </main>
+    {% endblock %}
+    {% block footer %}
+        {{ super() }}
+    {% endblock %}
 </body>
 </html>

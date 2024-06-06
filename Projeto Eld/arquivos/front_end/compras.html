@@ -3,53 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link rel="stylesheet" href="css/compras.css">
-    <title>Delicious Sweets</title>
+    <title>Compras</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/compras.css') }}">
+    <script src="{{ url_for('static', filename='script/compras.js') }}"></script>
+    {% extends 'nav_html.html' %}
 </head>
 <body>
-    <nav class='nav'>
-        <div class='navegador'>
-            <h1 id="text1">Delicious Sweets</h1>
-            <h2 id="text2">Acesse nossas abas</h2>
-            ●<a href="http://127.0.0.1:5000/pagina_inicial"> Página Inicial</a>
-            ●<a href="http://127.0.0.1:5000/sobre"> História da Loja</a>
-            ●<a href="http://127.0.0.1:5000/cadastro"> Cadastro</a>
+    <!-- {'produtos': ['Hambúrgueres Doces', 'Hambúrgueres Doces'], 'idCarrinhos': ['3', '4'], 'quantidades_totais': ['5', '5'], 'precos_totais': ['10.3', '10.3'], 'imagem': ['docesham.jpg', 'docesham.jpg']} -->
+    {% block padrao_com_perfil %}
+    {% endblock %}
+    {% block padrao_sem_perfil %}
+    {% endblock %}
+    {% block pagina_inicial %}
+        {{ super() }}
+        {% if status == 'compra_de_produto' %}
+            <div class="container">
+        {% for contagem in range(quantidade) %}
+        <div class="produto">
+            <h2>{{ informacao['produtos'][contagem] }}</h2>
+            <p>Preço: R${{ ('%.2f' | format((informacao['precos_totais'][contagem] | float)) | string).replace('.',',') }}</p>
+            <p>Quantidade: {{ informacao['quantidades_totais'][contagem] }}</p>
+            <img src="{{ url_for('static', filename='img/compras/') + informacao['imagem'][contagem] }}" alt="Imagem do produto">
         </div>
-        <a href="www.google.com.br" id="a1"><img src="{{ url_for('static', filename='img/compras/carrinho.png') }}"></a>
-    </nav>
-  <main>
-    <div class="tabelas">
-        <h1>Produtos que você pode gostar</h1>
-    </div>
-
-
-    <div class="tabelas">
-        <h1>Veja outros produtos</h1>
-    </div>
-        <h2>Doces</h2>
-        {% for produto in produtos %}
-        <div>
-            <div class="produtos">
-                <form action="/carrinho/submit_form" method="post">
-                    <h2>{{ produto[1] }}</h2>
-                    <p>{{ produto[2] }}</p>
-                    <img class  = 'imagem' src="{{ url_for('static', filename='img/compras/' + produto[3]) }}" alt="Imagen não carregada">
-                    <input type="number" name="quantidade" placeholder="Digite a quantidade">
-                    <p>R${{ produto[4] }},00</p>
-                    <input type="hidden" name="preco" value="{{ produto[4] }}">
-                    <button>Adicionar ao carinho</button>
-                </form>
-            </div>
         {% endfor %}
+            <div class="form-group">
+                <label for="pagamento">Forma de Pagamento:</label>
+                <select id="pagamento" name="pagamento">
+                    <option value="">Selecione</option>
+                    <option value="cartao">Cartão de Crédito à vista</option>
+                    <option value="pix">PIX</option>
+                </select>
+                <input type="text" name="cidades" id="cidades" placeholder="Digite a cidade de entrega..." required>
+            </div>
+        <div id="cartao-info" class="form-group hidden">
+            <label for="numero-cartao">Número do Cartão:</label>
+            <input type="text" id="numero-cartao" name="numero-cartao" maxlength="16" required>
+            <label for="cvv">CVV:</label>
+            <input type="text" id="cvv" name="cvv" maxlength="3" required>
+            <label for="validade">Validade:</label>
+            <input type="text" id="validade" name="validade" placeholder="MM/AA" required>
+            <input type="hidden" name="dados" value="{{ informacao }}">
         </div>
-
-    </main>
-
-
-    </main>
-    <footer>
-        <hr id="hr1">
-        Todos os direitos reservados
-    </footer>
+        <div id="pix-info" class="form-group hidden">
+                <p>Você escolheu PIX</p>
+        </div>
+        <p>Total: R${{ informacao['totalpago'].replace('.',',') }}</p>
+        <p>Frete: R${{ informacao['frete'].replace('.',',') }}</p>
+        <p>Total a ser pago:  R${{ ((informacao['frete'] | float +  informacao['totalpago'].replace(',','.') | float) | string).replace('.',',') }}</p>
+        <form action="/comprarprodutoform/submit_form" method="post">
+            <input type="hidden" name="status" id="status" value="">
+            <input type="hidden" name="dados" value="{{ informacao }}">
+            <button type="submit" id="finalizar-compra" disabled>Finalizar Compra</button>
+        </form>
+        {% elif status == 'pagamento-pix' %}
+            <div class="header">
+                <h1>Código pix gerado</h1>
+            </div>
+            <div class="main_pagamento">
+                <h3>Clique aqui para copiar o arquivo: <a href="/compras/pagamento?token={{ informacao['chave_pix'] }}">Clique aqui</a></h3>
+            </div>
+        {% elif status == 'visualizacao' %}
+            <div class="compra-status">
+                {% if len(compras) == 1 %}
+                    <h1>Status da sua compra</h1>
+                {% elif len(compras) > 1 %}
+                    <h1>Status das suas compras</h1>
+                {% else %}
+                    <h1>Que triste {{ usuario }}! Você ainda comprou nada. Compre alguma coisa...</h1>
+                {% endif %}
+                {% if compras != [] %}
+                    {% for adicionar in compras %}
+                        <div class="produto-info">
+                            <h2>{{ adicionar['nome'] }}</h2>
+                            <div class="imagem-container">
+                                <img class  = 'imagem' src="{{ url_for('static', filename='img/compras/' + adicionar['imagem']) }}" alt="Imagen não carregada">
+                            </div>
+                            <p>Preço: R${{ (('%.2f' |  format(adicionar['Preco'])) | string).replace('.',',')  }}</p>
+                            <p>Total pago: R${{ ( '%.2f' | format(adicionar['Preco'] * adicionar['quantidade']) | string).replace('.',',')  }}</p>
+                            <p>Quantidade: {{ adicionar['quantidade']  }}</p>
+                            <p>Data prevista para entrega: {{ adicionar['data_chegada'] }}</p>
+                            <p>Data de envio: {{ adicionar['data_compra'] }}</p>
+                            <p>Status do produto: {{ adicionar['status'] }}</p>
+                            {% if adicionar['status'] == 'Entregue ao destinatário' %}
+                                {% set status = 'Seu produto já foi entregue, caso não tenha recebido. Por favor, entre em contato conosco!' %}
+                            {% elif adicionar['status'] == 'Enviando para a transportadora' %}
+                                {% set status = 'Seu produto foi enviado para a transportadora e já indo para sua cidade!' %}
+                            {% else %}
+                                {% set status = 'Seu produto foi enviado! Espere até a transportadora pegar ser produto!' %}
+                            {% endif %}
+                            <button class="detalhes-btn" data-status="{{ status }}">Ver detalhes</button>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <h2 class="mensagem-produto">Você ainda não comprou nenhum produto. Acesse nossa <a href="/home">pagina inicial</a> para comprar algo!</h2>
+                {% endif %}
+            </div> 
+        {% endif %}
+    {% endblock %}
+    {% block footer %}
+        {{ super() }}
+    {% endblock %}
 </body>
 </html>

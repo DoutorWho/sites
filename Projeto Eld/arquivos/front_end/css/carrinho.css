@@ -1,114 +1,140 @@
-.nav {
-    display: flex;
-    justify-content: center; /* Alterado de space-between para center */
-    align-items: center; /* Adicionado para centralizar verticalmente */
-    border-top: 7px solid blue;
-    border-bottom: 7px solid blue;
-    background-color: #F0E68C;
-    color: #401519;
-    height: 100px;
-    position: relative;
-}
-
-.nav img {
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 100px;
-    height: 100px;
-}
-#logo {
-    position: absolute;
-    left: 20px;
-    top: 50%; /* Adicionado para centralizar verticalmente */
-    transform: translateY(-50%); /* Adicionado para centralizar verticalmente */ 
-    width: 140px; /* Ajuste este valor conforme necessário */
-    height: 80px; /* Ajuste este valor conforme necessário */
-}
-
-#sobre {
-    position: absolute;
-    left: 380px;
-    top: 50%; /* Adicionado para centralizar verticalmente */
-    transform: translateY(-50%); /* Adicionado para centralizar verticalmente */ 
-}
-
-#sobre img {
-    width: 170px; /* Ajuste este valor conforme necessário */
-    height: 80px; /* Ajuste este valor conforme necessário */
-}
-
-#perfil {
-    position: absolute;
-    left: 530px;
-    top: 50%; /* Adicionado para centralizar verticalmente */
-    transform: translateY(-50%); /* Adicionado para centralizar verticalmente */ 
-}
-
-#perfil img {
-    width: 120px; /* Ajuste este valor conforme necessário */
-    height: 60px; /* Ajuste este valor conforme necessário */
-}
-
-
-
-/* Parte do body*/
-#a1 {
-    position: absolute;
-    right: 20px;
-    top: 50%; /* Adicionado para centralizar verticalmente */
-    transform: translateY(-50%); /* Adicionado para centralizar verticalmente */
-}
-.status {
-    padding-bottom: 580px;
-}
+/* Estilos gerais */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
     margin: 0;
-}
-#text1 {
-    text-align: center;
-    font-size: 30px;
-}
-#text2 {
-    text-align: center;
-    font-size: 20px;
+    padding: 0;
 }
 
-#hr1 {
-    width: 100%;
-}
-footer {
+.header-carrinho {
+    background-color: #007BFF;
+    padding: 20px 0;
+    color: #fff;
     text-align: center;
-    font-size: 25px;
 }
 
-.produtos {
-    width: 200px;
-    padding: 10px;
-    margin: 10px;
-    float: left;
+.titulo-carrinho {
+    font-size: 2em;
+}
+.titulo-produtos {
     text-align: center;
-    background-color: green;
-    color: #401519;
-
-}
-.tabelas {
-    border-bottom: 3px solid pink;
-    color: blue;
+    font-size: 1.5em;
+    color: #333;
+    padding: 20px 0;
 }
 
-.imagem {
-    width: 70%;
-    height: 70%;
-    border-radius: 50%;
+/* Estilos para os produtos */
+.produto {
+    min-width: 150vh; /* Aumenta a largura da div produto */
+    border: 1px solid #ddd;
+    background-color: #fff;
+    padding: 3vh; /* Usa vh para padding */
+    border-radius: 8px;
+    display: flex;
+    align-items: center; /* Alinha o conteúdo verticalmente no centro */
+    transition: all 0.3s ease;
+    margin-bottom: 4vh; /* Usa vh para margem inferior */
 }
-hr {
-    height: 10px;
-    background: blue;
+
+.info-produto {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left; /* Alinha o texto à esquerda */
+    margin-left: 4vh; /* Espaçamento entre a imagem e as informações */
+    flex-grow: 1; /* Permite que a div info-produto ocupe todo o espaço disponível */
 }
-#hr1 {
-    height: 10px;
-    background: black;
+
+.imagem-produto {
+    width: 20vh; /* Aumenta o tamanho da imagem */
+    height: auto;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.imagem-produto:hover {
+    transform: scale(1.1);
+}
+
+/* Estilos para os inputs e botões */
+.quantidade-e-checkbox {
+    display: flex;
+    align-items: center;
+    margin-top: 2vh; /* Espaço acima do input de quantidade */
+}
+
+.quantidade-e-checkbox label {
+    margin-right: 2vh; /* Espaçamento maior entre a label e o input de quantidade */
+}
+
+.comprar-checkbox {
+    margin-left: 2vh; /* Espaço entre a quantidade e o checkbox */
+    width: 3vh; /* Aumenta o tamanho do checkbox */
+    height: 3vh; /* Aumenta o tamanho do checkbox */
+    transition: all 0.3s ease;
+}
+
+#quantidade-produto {
+    width: 10vh; /* Aumenta o tamanho do input de quantidade */
+}
+
+.botao-excluir {
+    padding: 2vh 3vh; /* Usa vh para padding */
+    background-color: #d9534f;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 2vh;
+}
+
+.botao-excluir:hover {
+    background-color: #c9302c;
+    transform: scale(1.05);
+}
+
+/* Estilo para .mostrar_total */
+.carrinho-container {
+    display: flex;
+    justify-content: space-between; /* Distribui espaço entre os elementos filhos */
+}
+
+.mostrar_total {
+    align-self: flex-start; /* Alinha a div ao topo do contêiner */
+    background-color: #f0f0f0;
+    padding: 2vh;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    text-align: center; /* Centraliza o texto */
+    margin-left: 20vh; /* Reduz o espaço à esquerda */
+    margin-right: 20vh; /* Adiciona um espaço à direita */
+    font-size: 1.2em; /* Aumenta o tamanho da fonte */
+    color: #333;
+}
+
+.mostrar_total p {
+    margin: 1vh 0; /* Margem vertical */
+}
+
+#compra-form button[type="submit"] {
+    background-color: #4CAF50; /* Cor de fundo do botão */
+    color: white; /* Cor do texto do botão */
+    padding: 10px 20px; /* Espaçamento interno do botão */
+    border: none; /* Remove a borda do botão */
+    border-radius: 5px; /* Adiciona cantos arredondados ao botão */
+    cursor: pointer; /* Altera o cursor ao passar sobre o botão */
+    transition: background-color 0.3s, color 0.3s; /* Adiciona transição suave de cor de fundo e cor do texto */
+}
+
+#compra-form button[type="submit"]:hover {
+    background-color: #45a049; /* Cor de fundo alterada ao passar o mouse */
+}
+
+
+.mensagem-vazio {
+    text-align: center;
+    font-size: 1.2em;
+    color: #777;
+    padding: 10px 0;
 }

@@ -5,22 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/erros.css')}}">
-    <title>Eroo</title>
+    <title>Erro</title>
 </head>
 <body>
-    <nav class="nav">
-        <h1>Algum deu errado</h1>
-        <img src="{{ url_for('static', filename='img/erros/procurando.gif') }}" alt="Imagem não foi carregada">
-    </nav>
-    <main class="main">
-        <h1>Ops, houve algum erro ao acessar esse site. Por favor, tente novamente!</h1>
-        <h2>O erro foi {{ erro }}</h2>
-        
-    </main>
-
-    <footer>
-        <hr id="hr1">
-        Todos os direitos reservados
-    </footer>
+    {% extends 'nav_html.html' %}
+    {% block pagina_inicial %} 
+    {% endblock %}
+    {% block padrao_sem_perfil %} 
+    {% endblock %}
+    {% block padrao_com_perfil %}
+    <div class="error-container">
+        <h1 class="error-code">{{ codigo }}</h1>
+        <h2 class='error-message'>Oops! Parece que algo deu errado.</h2>
+        <img class="error-image" src="{{ url_for('static', filename='img/erros/procurando.gif') }}" alt="Imagem não foi carregada">
+        <p class="error-description">Desculpe, houve algum erro ao acessar essa página. O erro foi: {{ erro }}</p>
+    </div>
+    {% endblock %}
+    {% block footer %}
+        {{ super() }}
+    {% endblock %}
 </body>
 </html>

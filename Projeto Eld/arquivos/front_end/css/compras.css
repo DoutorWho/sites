@@ -1,71 +1,131 @@
-.nav {
-    display: flex;
-    justify-content: space-between;
-    border-top: 7px solid blue;
-    border-bottom: 7px solid blue;
-    background-color: pink;
-    color: #401519;
-    height: 190px;
-    position: relative; /* Adicionado para permitir o posicionamento absoluto do carrinho */
-}
-.nav img {
-    position: absolute; /* Permite que você posicione o carrinho em qualquer lugar dentro do .nav */
-    right: 20px; /* Ajuste conforme necessário para mover o carrinho mais para a direita */
-    align-self: center;
-    width: 100px;
-    height: 100px;
-}
-
-#a1 {
-    position: absolute; /* Permite que você posicione o carrinho em qualquer lugar dentro do .nav */
-    right: 20px; /* Ajuste conforme necessário para mover o carrinho mais para a direita */
-    align-self: center;
-    width: 100px;
-    height: 100px;
-}
-.navegador {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center; /* Centraliza o texto horizontalmente */
-    margin: auto; /* Centraliza o texto verticalmente */
-}
+/* styles.css */
 body {
     font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
 }
 
-.imagem{
-    width: 70%;
-    height: 70%;
-    border-radius: 50%;
+/* Primeira parte*/
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-hr {
-    height: 10px;
-    background: blue;
-}
-#hr1 {
-    height: 10px;
-    background: black;
+.produto {
+    border-bottom: 1px solid #ccc;
+    padding: 20px 0;
 }
 
-#text1 {
+.produto h2 {
+    margin: 0 0 10px;
+}
+
+.produto p {
+    margin: 5px 0;
+}
+
+.produto img {
+    max-width: 100px;
+    height: auto;
+    display: block;
+    margin-top: 10px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.hidden {
+    display: none;
+}
+
+#finalizar-compra {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+#finalizar-compra:hover {
+    background: green;
+}
+
+
+#finalizar-compra:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Outra parte*/
+
+.compra-status {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.compra-status h1 {
     text-align: center;
-    font-size: 30px;
-}
-#text2 {
-    text-align: center;
-    font-size: 20px;
-}
-.ordenar {
-    font-size: 18px;
-    text-indent: 1em;
+    color: #007BFF;
 }
 
-#hr1 {
-    width: 18000px;
+.produto-info {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    border-radius: 10px;
 }
-footer {
+
+.produto-info:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.produto-info h2 {
+    margin-top: 0;
+    color: #333;
+}
+
+.imagem-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.imagem {
+    width: 200px; /* ajuste conforme necessário */
+    height: 200px; /* ajuste conforme necessário */
+    object-fit: cover; /* mantém a proporção da imagem */
+}
+
+.produto-info p {
+    margin: 10px 0;
+    color: #666;
+}
+
+.detalhes-btn {
+    display: inline-block;
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.detalhes-btn:hover {
+    background-color: #0056b3;
+}
+.mensagem-produto {
+    color: red; /* altere para a cor que você preferir */
     text-align: center;
-    font-size: 25px;
+    font-size: 1.5em; /* ajuste o tamanho conforme necessário */
 }

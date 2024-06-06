@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/produtos_detalhes.css') }}">
+    <script src="{{ url_for('static', filename='script/produtos_detalhes.js') }}" defer></script>
+    <title>{{ produto[2] }}</title>
+    {% extends 'nav_html.html' %}
+</head>
+<body>
+    <div class="container">
+        {% block padrao_sem_perfil %}
+        {% endblock %}
+
+        {% block padrao_com_perfil %} 
+        {% endblock %}
+
+        {% block pagina_inicial %}
+            {{ super() }}
+            <main>
+                <div class="product-details">
+                    <div class="product-image-container">
+                        <span class="produto_avaliacao">{{ avaliacao['avaliacao_principal'] }}</span>
+                        <img class="product-image" src="{{ url_for('static', filename='img/compras/' + produto[5]) }}" alt="Imagem não carregada">
+                    </div>
+                    <div class="product-info">
+                        <h2>{{ produto[2] }}</h2>
+                        <p>Descrição: {{ produto[3] }}</p>
+                        <p>Ingredientes: {{ produto[4] }}</p>
+                        <p>Tipo do produto: {{ produto[1].replace('_', ' ').title() }}</p>
+                        <p class="price">R${{ produto[6] }}</p>
+                        <form action="/addcarrinho/submit_form" method="post" onsubmit="return validateForm.call(this)">
+                            <input type="number" name="quantidade" min="1" max="20" placeholder="Digite a quantidade..." id="number" required>
+                            <input type="hidden" name="idProduto" value="{{ produto[0] }}">
+                            <button class="btn">Adicionar ao carrinho</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="product-review">
+                    {% if usuario != None %}
+                        <form action="/avaliar_produto/submit_form" method="post" onsubmit="return validateReviewForm(this)">
+                            <label class="mensagem_avaliar" for="avaliacao">Avaliação do produto (0 a 5):</label>
+                            <p id="stars"></p>
+                            <input class="star" id="star-input" type="range" name="avaliacao" value="0" min="0" max="5" oninput="updateStars(this.value)">
+                            <br>
+                            <input type="hidden" name="nome_produto" value="{{ produto[2] }}">
+                            <input type="hidden" name="idProduto" value="{{ produto[0] }}">
+                            <button class="submit-button">Enviar avaliação</button>
+                        </form>
+                    {% else %}
+                        <p class="mensagem_erro">Cadastre-se para avaliar os produtos!</p>
+                    {% endif %}
+                    <hr class="separador">
+                    <h1 class="avaliacao_mensagem">Avaliação de clientes</h1>
+                    {% for avaliacao, porcentagem in avaliacao['quantidades_avaliacacoes'].items() %}
+                        <div class="avaliacao-item">
+                            <h2>{{avaliacao}}: {{ porcentagem }}</h2>
+                            <div class="avaliacao-barra">
+                                <div class="avaliacao-preenchida" style="width: {{ porcentagem | safe}}" ></div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <hr>
+                <div class="comments-section">
+                    {% if usuario != None %}
+                        <form action="/comentario/submit_form" method="post">
+                            <input type="hidden" name="resposta" value="None">
+                            <input type="hidden" name="tipo" value="enviar_mensagem">
+                            <input type="text" name="comentario" placeholder="Digite um comentário para esse produto..." class="comment-input" required>
+                            <button class="btn comment-btn">Enviar comentário</button>
+                        </form>
+                    {% else %}
+                        <p class="mensagem_erro">Cadastre-se para enviar comentários!</p>
+                    {% endif %}
+                </div>
+                <div class="comments-display">
+                    <h1>Comentários dos produtos</h1>
+                    {% for comentario in comentario_principal %}
+                        <div class="comment">
+                            <p>
+                                <img class="profile-img" src="{{ url_for('static', filename='imagens_usuarios/' + comentario['imagem'] ) }}">{{ comentario['nome_usuario'] }} ● {{ comentario['data_de_envio_e_hora'] }}
+                                {% if comentario['compra_verificada'] %}
+                                    <span class="verified-purchase">✔</span>
+                                {% endif %}
+                                {{comentario['avaliacao']}}
+                            </p>
+                            <a class="acessar_perfil" href="/perfil/{{ comentario['nome_perfil'] }}" target="_blank"><strong>{{ comentario['nome_perfil'] }}</strong></a>
+                            <p id="comentario{{ comentario['idComentario'] }}">{{ comentario['comentario'] | safe }}</p>
+                            {% if comentario['nome_perfil'] == nome_perfil %}
+                                <form action="/comentario/submit_form" method="post">
+                                    <input type="hidden" name="tipo" value="apagar">
+                                    <input type="hidden" name="idComentario" value="{{ comentario['idComentario'] }}">
+                                    <button class="apagar_mensagem" type="submit">Apagar mensagem</button>
+                                </form>
+                            {% endif %}
+                            {% for resposta in resposta_comentario %}
+                                {% if resposta['remetente'] == comentario['idComentario'] %}
+                                    <div class="reply">
+                                        <p>
+                                            <img class="profile-img" src="{{ url_for('static', filename='imagens_usuarios/' + resposta['imagem'] ) }}">{{ resposta['nome_usuario'] }} ● {{ resposta['data_de_envio_e_hora'] }}
+                                            {% if resposta['compra_verificada'] %}
+                                                <span class="verified-purchase">✔</span>
+                                            {% endif %}
+                                            {{resposta['avaliacao']}}
+                                        </p>
+                                        <a class="acessar_perfil" href="/perfil/{{ resposta['nome_perfil'] }}" target="_blank"><strong>{{ resposta['nome_perfil'] }}</strong></a>
+                                        <p id="comentario{{ resposta['idComentario'] }}">{{ resposta['comentario'] | safe }} </p>
+                                        {% if resposta['nome_perfil'] == nome_perfil %}
+                                            <form action="/comentario/submit_form" method="post">
+                                                <input type="hidden" name="tipo" value="apagar">
+                                                <input type="hidden" name="idComentario" value="{{ resposta['idComentario'] }}">
+                                                <button class="apagar_mensagem" type="submit">Apagar mensagem</button>
+                                            </form>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        {% if usuario != None %}
+                            <form action="/comentario/submit_form" method="post" class="reply-form">
+                                <input type="text" name="comentario" placeholder="Digite uma resposta para esse usuário..." class="reply-input" required>
+                                <input type="hidden" name="resposta" value="{{ comentario['idComentario'] }}">
+                                <input type="hidden" name="tipo" value="enviar_mensagem">
+                                <button class="btn reply-btn">Enviar resposta</button>
+                            </form>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </main>
+        {% endblock %}
+        {% block footer %}
+            {{ super() }}
+        {% endblock %}
+    </div>
+</body>
+</html>

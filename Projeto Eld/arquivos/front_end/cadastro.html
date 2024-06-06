@@ -4,68 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro.css') }}">
+    <script src="{{ url_for('static', filename='script/cadastro.js') }}"></script>
+    {% extends 'nav_html.html' %}
     <title>Cadastro de Usuário</title>
 </head>
 <body>
-    <nav class="nav">
-        <img id="logo" src="{{ url_for('static', filename='img/pagina_inicial/logo.png') }}">
-    </nav>
-    <main>
-        {% if status == 'cadastro' %}
-            <h2 id="text2">Cadastre seus dados</h2>
-            <hr id="hrnormal">
-            <form action="/cadastro/submit_form" method="post" enctype="multipart/form-data">
-                <label for="nome">Nome:</label>
-                <input type="text" name="nome" placeholder="Digite seu nome...">
-                <label for="email">Email:</label>
-                <input type="email" name="email" id="email" placeholder="Digite seu email...">
-                <label for="sexo">Sexo:</label>
-                <select name="sexo">
-                    <option value="Masculino">Masculino</option>
-                    <option value="Feminino">Feminino</option>
-                </select>
-                <label for="forma_de_pagamento">Forma de pagamento: </label>
-                <select name="forma_de_pagamento">
-                    <option value="pix">PIX</option>
-                    <option value="cartao">Cartão de Crédito à vista</option>
-                    <option value="boleto">Boleto</option>
-                </select>
-                <label for="preferencia">Preferência</label>
-                <select name="preferencia">
-                    <option value="doces_quadrados">Doces Quadrados</option>
-                    <option value="doces_frescos">Doces Frescos</option>
-                    <option value="doces_epicos">Doces Épicos</option>
-                </select>
-                <label for="foto">Foto de perfil: </label>
-                <input type="file" name="foto" placeholder="Mande sua foto">
-                <br>
-                <label for="senha">Senha:</label>
-                <input type="text" name="senha" id="senha" placeholder="Digite sua senha...">
-                <label for="senha">Confirmar senha:</label>
-                <input type="text" name="confirmasenha" id="senha" placeholder="Confirme sua senha...">
-                {% if mensagem_erro_cadastro != None %}
-                    <p id="erro">{{ mensagem_erro_cadastro }}</p>
-                {% endif %}
-                <button type="submit">Enviar</button>
-            </form>
-        {% elif status == 'login' %}
-            <h2>Faça login!</h2>
-        <form action="/login/submit_form" method="post">
-            <hr id="hr2">
-            <label for='email'>Email:</label>
-            <input type="email" name="email">
-            <label for="senha">Senha:</label>
-            <input type="text" name="senha">
-            {% if mensagem_erro_login != None %}
-                <p id="erro">{{ mensagem_erro_login }}</p>
-            {% endif %}
-            <button type="submit">Enviar</button>
-        </form>
-    {% endif %}
-    </main>
-    <footer>
-        <hr id="hr1">
-        Todos os direitos reservados
-    </footer>
+    {% block pagina_inicial %}
+    {% endblock %}
+    {% block padrao_sem_perfil %}
+    {% endblock %}
+    {% block padrao_com_perfil %}
+        <main class="main-content">
+            {% if status == 'cadastro' %}
+                <div class="form-container">
+                    <h2>Cadastre seus dados</h2>
+                    <hr id="hrnormal">
+                    <form action="/cadastro/submit_form" method="post" enctype="multipart/form-data">
+                        <label for="nome_perfil">Nome do perfil (Este nome não poderá ser alterado):</label>
+                        <input type="text" name="nome_perfil" id="nome_perfil" placeholder="Digite seu nome de perfil..." required>
+                        <label for="nome_usuario">Nome de usuário:</label>
+                        <input type="text" name="nome_usuario" placeholder="Digite seu nome de usuário..." required>
+                        <label for="cpf">CPF:</label>
+                        <input type="text" name="cpf" placeholder="Digite seu cpf..." required>
+                        <label for="email">Email:</label>
+                        <input type="email" name="email" id="email" placeholder="Digite seu email..." required>
+                        <label for="sexo">Sexo:</label>
+                        <select name="sexo">
+                            <option value="Masculino">Masculino</option>
+                            <option value="Feminino">Feminino</option>
+                        </select>
+                        <label for="cidade">Cidade:</label>
+                        <input type="text" name="cidade" placeholder="Digite a sua cidade..." required>
+                        <label for="foto">Foto de perfil: </label>
+                        <div class="image-upload">
+                            <label for="foto">
+                                <span id="upload-text">Mande sua foto</span>
+                                <img id="preview" src="https://via.placeholder.com/150" alt="Sua foto" />
+                            </label>
+                            <input id="foto" type="file" name="foto_de_perfil" required>
+                        </div>
+                        <br>
+                        <label for="senha">Senha:</label>
+                        <input type="password" name="senha" id="senha" placeholder="Digite sua senha..." required>
+                        <label for="confirmasenha">Confirmar senha:</label>
+                        <input type="password" name="confirmasenha" id="confirmasenha" placeholder="Confirme sua senha..." required>
+                        <p class="span">Ao cadastra-se nesse site com você concorda com a política de privacidade da Delicius Sweet</p>
+                        {% if mensagem_erro_cadastro != None %}
+                            <p id="erro">{{ mensagem_erro_cadastro }}</p>
+                        {% endif %}
+                        <button type="submit">Enviar</button>
+                    </form>
+                </div>
+            {% elif status == 'login' %}
+                <div class="form-container">
+                    <h2>Faça login!</h2>
+                    <form action="/login/submit_form" method="post">
+                        <hr id="hr2">
+                        <label for='email'>Email:</label>
+                        <input type="email" name="email" placeholder="Digite seu email..." required>
+                        <label for="senha">Senha:</label>
+                        <input type="password" name="senha" placeholder="Digite sua senha..." required>
+                        {% if mensagem_erro_login != None %}
+                            <p id="erro">{{ mensagem_erro_login }}</p>
+                        {% endif %}
+                        <button type="submit">Enviar</button>
+                    </form>
+                </div>
+        {% endif %}
+        </main>
+    {% endblock %}
+    {% block footer %}
+        {{ super() }}
+    {% endblock %}
 </body>
 </html>

@@ -1,26 +1,35 @@
-.nav {
-    display: flow;
+.error-container {
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    border-top: 7px solid blue;
-    border-bottom: 7px solid blue;
-    background-color: pink;
-    color: #401519;
-    height: 280px;
+    border-top: 7px solid #3498db;
+    border-bottom: 7px solid #3498db;
+    background-color: #ecf0f1;
+    color: #2c3e50;
+    height: 100vh;
+    padding: 20px;
 }
-.nav img {
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+
+.error-container img {
+    display: block;
+    margin: 20px auto;
     width: 230px;
     height: 180px;
+}
 
+.error-code {
+    font-size: 48px;
+    color: #e74c3c;
 }
-#hr1 {
-    width: 18000px;
+
+.error-message {
+    font-size: 24px;
+    color: #2c3e50;
 }
-footer {
-    text-align: center;
-    font-size: 25px;
+
+.error-description {
+    font-size: 18px;
+    color: #9b59b6;
 }

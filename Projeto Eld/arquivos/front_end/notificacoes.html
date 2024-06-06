@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/notificacoes.css')}}"> 
+</head>
+<body>
+    <h1>Olá, {{ usuario }}! Essas são suas notificações</h1>
+    {% set quantidade = mensagens['notificacoes']['quantidade'] %}
+    {% if quantidade > 0 %}
+        {% for contar in range(quantidade) %}
+            {% if mensagens['notificacoes']['visualizacao'][contar] == True %}
+                <div class="notificacao_viu">
+                    <p>Mensagem enviado por: {{ mensagens['notificacoes']['remetente'][contar].title() }}</p>
+                    <p>A mensagem é: {{ mensagens['notificacoes']['mensagem'][contar] }}</p>
+                    <a href="produto/{{ mensagens['notificacoes']['url_produto'][contar] }}#{{ mensagens['notificacoes']['url_comentario'][contar] }}" target="_blank">Veja a mensagem completa</a>     
+                </div>
+            {% elif mensagens['notificacoes']['visualizacao'][contar] == False %} <!-- É porque é False e ele não viu a mensagem!-->
+                <div class="notificacao_nao_viu">
+                    <p>Mensagem enviado por: {{ mensagens['notificacoes']['remetente'][contar].title() }}</p>
+                    <p>A mensagem é: {{ mensagens['notificacoes']['mensagem'][contar] }}</p>
+                    <a href="produto/{{ mensagens['notificacoes']['url_produto'][contar] }}?visto=True&idNotificacao={{ mensagens['notificacoes']['idNotificacao'][contar]}}#{{mensagens['notificacoes']['url_comentario'][contar]}}" target="_blank">Veja a mensagem completa</a>     
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <h1>Você não notificações</h1>
+    {% endif %}
+</body>
+</html>

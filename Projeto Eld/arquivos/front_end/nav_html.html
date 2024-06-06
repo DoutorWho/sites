@@ -1,0 +1,106 @@
+<link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+</head>
+
+<body>
+    <!-- Está é é o nav! -->
+    {% block pagina_inicial %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/nav_html.css')}}">
+    <nav class='nav'>
+            <img id="logo" src="{{ url_for('static', filename='img/pagina_inicial/logo.png') }}">
+            <a href="/sobre" id="sobre">
+                <p id="nav_mensagem" onclick="document.getElementById('sobre').submit();" style="cursor:pointer;"> 
+                    História da Loja
+                </p>
+            </a>
+            {% if usuario != None %}
+            <h2 id="text1">Bem-vindo(a) {{ usuario }}! Acesse nossas abas</h2>
+            {% else %}
+            <h2 id="text1">Bem-vindo(a)! Cadastre-se em nossa loja abaixo!</h2>
+            {% endif %}
+            {% if usuario != None %}
+            <a href="/perfil" id="perfil">
+                <p id="nav_mensagem" onclick="document.getElementById('perfil').submit();" style="cursor:pointer;"> 
+                    Perfil
+                </p>
+            </a>
+            {% else %}
+            <form id="cadastro" action="/cadastro" method='post'>
+                <input type="hidden" name="status" value="cadastro">
+            </form>
+            <form id="entrar" action="/cadastro" method='post'>
+                <input type="hidden" name="status" value="login">
+            </form>
+            <a id="cadastro">
+                <p id="nav_mensagem" onclick="document.getElementById('cadastro').submit();" style="cursor:pointer;">
+                    Cadastrar
+                </p>
+            </a>
+            <a id="entrar">
+                <p id="nav_mensagem" onclick="document.getElementById('entrar').submit();" style="cursor:pointer;"> 
+                    Entrar
+                </p>
+            </a>
+            {% endif %}
+            {%if usuario != None %}
+            <a href="/carrinho" id="carrinho"><img
+                    src="{{ url_for('static', filename='img/compras/carrinho.png') }}"></a>
+            {% endif %}
+    </nav>
+    {% endblock %}
+
+    {% block padrao_sem_perfil %} <!-- Aqui é o cadastro e historia da loja-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/nav_html.css')}}">
+    <nav class="nav">
+        <img id="logo" src="{{ url_for('static', filename='img/pagina_inicial/logo.png') }}">
+        <a href="/" id="pagina_inicial1">
+            <p id="nav_mensagem" onclick="document.getElementById('pagina_inicial').submit();" style="cursor:pointer;"> 
+                Página Inicial
+            </p>
+        </a>
+        {% if usuario != None %}
+            <h2 id="text3">Bem-vindo(a) {{ usuario }}!</h2>
+            <a href="/carrinho" id="carrinho"><img
+                    src="{{ url_for('static', filename='img/compras/carrinho.png') }}"></a>
+            <a href="/perfil" id="perfilsobre">
+                <p id="nav_mensagem" onclick="document.getElementById('perfilsobre').submit();" style="cursor:pointer;"> 
+                    Perfil
+                </p>
+            </a>
+        {% else %}
+            <h2 id="text3">Bem-vindo(a)! Cadastre-se em nossa loja abaixo!</h2>
+        {% endif %}
+    </nav>
+    {% endblock %}
+
+    {% block padrao_com_perfil %} <!-- Aqui vai perfil e carrinho -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/nav_html.css')}}">
+    <nav class="nav">
+        <img id="logo" src="{{ url_for('static', filename='img/pagina_inicial/logo.png') }}">
+        <a href="/" id="pagina_inicial1">
+            <p id="nav_mensagem" onclick="document.getElementById('pagina_inicial').submit();" style="cursor:pointer;"> 
+                Pagina Inicial
+            </p>
+        </a>
+        {% if usuario == informacoes_usuarios['nome_usuario'] %}
+        <h2 id="text3">Bem-vindo(a) {{ usuario }} ao seu perfil!</h2>
+        {% else %}
+        <h2 id="text3">Bem-vindo(a) ao perfil de {{ informacoes_usuarios['nome_usuario'] }}</h2>
+        {% endif %}
+        <a href="/perfil"><img class="foto_perfil" src="{{url_for('static', filename=imagem)}}"></a>
+        <a href="/sobre" id="sobreemperfil">
+            <p id="nav_mensagem" onclick="document.getElementById('sobre').submit();" style="cursor:pointer;"> 
+                    História da Loja
+            </p>
+        </a>
+    </nav>
+    {% endblock %}
+
+
+    {% block footer %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/nav_html.css')}}">
+    <footer>
+        <hr id="footer">
+        Todos os direitos reservados!
+    </footer>
+    {% endblock %}
+</body>

@@ -1,0 +1,125 @@
+cursor.execute("""DROP TABLE Pessoas""")
+cursor.execute("""DROP TABLE Produtos""")
+cursor.execute("""DROP TABLE AvaliacaoProdutos""")
+cursor.execute("""DROP TABLE Carrinho""")
+cursor.execute("""DROP TABLE Compra""")
+cursor.execute("""DROP TABLE Comentarios""")
+cursor.execute("""DROP TABLE Notificacao""")
+
+criando as tabelas
+adicionar em pessoas depois o numero de comentarios do individuo!
+
+cursor.execute(""" 
+    CREATE TABLE Pessoas (
+        idPessoas INTEGER PRIMARY KEY NOT NULL,
+        nome_usuario TEXT NOT NULL,
+        nome_perfil TEXT NOT NULL UNIQUE,
+        CPF TEXT NOT NULL UNIQUE,
+        email TEXT NOT NULL UNIQUE,
+        sexo TEXT NOT NULL CHECK(sexo IN ('Masculino', 'Feminino')),
+        cidade TEXT NOT NULL,
+        foto_de_perfil TEXT NOT NULL,
+        total_de_comentario INTEGER NOT NULL,
+        senha TEXT NOT NULL
+        );
+    """) 
+
+avaliou_produtos será um conjuntos de números com os produtos que ele avaliou! No caso os ids do produto, depois somando string!
+
+
+cursor.execute(""" 
+    CREATE TABLE Produtos(
+        idProdutos INTEGER PRIMARY KEY NOT NULL,
+        tipo TEXT NOT NULL,
+        nome TEXT NOT NULL,
+        descricao TEXT NOT NULL,
+        ingredientes TEXT NOT NULL,
+        imagem TEXT NOT NULL,
+        preco TEXT NOT NULL
+        );""")
+
+cursor.execute("""
+    CREATE Table AvaliacaoProdutos (
+        idAvalicaoProdutos INTEGER PRIMARY KEY NOT NULL,
+        cpf INTEGER NOT NULL,
+        idProduto INTEGER NOT NULL,
+        nome TEXT NOT NULL,
+        avaliacao_pontuacao FLOAT NOT NULL
+    );""")
+cursor.execute(""" 
+    CREATE TABLE Carrinho(
+        idCompra INTEGER PRIMARY KEY NOT NULL,
+        idPessoas INTEGER NOT NULL,
+        produto INTEGER NULL,
+        quantidade FLOAT NOT NULL
+        );""")
+cursor.execute(""" 
+    CREATE TABLE Compra(
+        idCompra INTEGER PRIMARY KEY NOT NULL,
+        idPessoas INTEGER NOT NULL,
+        produto TEXT NOT NULL,
+        frete FLAOT NOT NULL,
+        preco FLAOT NOT NULL,
+        quantidade INTEGER NOT NULL,
+        data_compra TEXT NOT NULL,
+        data_entrega TEXT NOT NULL,
+        status TEXT NOT NULL
+        );""")
+cursor.execute(""" 
+    CREATE TABLE Comentarios(
+    idComentarios INTEGER PRIMARY KEY NOT NULL,
+    idPessoa INTEGER NOT NULL,
+    idProduto INTERGER NOT NULL,
+    data_do_comentario TEXT NOT NULL,
+    hora_do_comentario TEXT NOT NULL,
+    comentario TEXT NOT NULL,
+    remetente TEXT NOT NULL
+    );""") 
+
+remetente é o seguinte, se for diferente de Null é porque alguém respondeu, se não, é pq ninguém respondeu. Eu sei quem respondeu pelo id do comentario!
+
+cursor.execute("""
+    CREATE TABLE Notificacao(
+        idNotificacao INTEGER PRIMARY KEY NOT NULL,
+        remetente TEXT NOT NULL,
+        destinatario TEXT NOT NULL,
+        produto TEXT NOT NULL,
+        mensagem TEXT NOT NULL,
+        status INTEGET NOT NULL 
+        );""") 
+
+status é se ele viu ou não. False significa que ele não viu, e True que ele viu. 
+
+
+
+
+Produtos.adicionar_produto(tipo='doces_frescos' ,nome='Macarron', descricao='Macarrão bonito de comer, com uma textura leve e delicada que derrete na boca. Perfeito para satisfazer sua vontade de doces frescos.', ingredientes="Farinha de trigo, açúcar, ovos, corante alimentício", imagem="macarron.jpg", preco='7,20')
+
+Produtos.adicionar_produto(tipo='doces_frescos', nome='Hambúrgueres Doces', descricao='Hambúrgueres doces! Coma e viva! Feitos com ingredientes frescos e de alta qualidade para uma experiência única de sabor e indulgência.', ingredientes="Pão doce, geleia de frutas, chantilly, confeitos coloridos", imagem="docesham.jpg", preco='10,30')
+
+Produtos.adicionar_produto(tipo='doces_intensos', nome="Bolo de Pote", descricao="Um bolo delicioso! Super rico em sabor e textura, em um formato perfeito para levar onde quer que você vá.", ingredientes="Farinha de trigo, chocolate em pó, leite condensado, creme de leite", imagem="bolodepote.jpg", preco="14,00")
+
+Produtos.adicionar_produto(tipo='doces_intensos', nome="Torta Bulgára", descricao="Uma torta com um gosto inesquecível e uma textura indulgente. Feita com ingredientes cuidadosamente selecionados para um deleite verdadeiramente luxuoso.", ingredientes="Biscoitos triturados, manteiga, cream cheese, açúcar, frutas frescas", imagem='torta_bulgara.jpg', preco=15.00)
+
+Produtos.adicionar_produto(tipo='doces_relaxantes', nome='Pirulitos', descricao='Pirulitos deliciosos para relaxar! Feitos com ingredientes de alta qualidade para uma experiência doce e reconfortante.', ingredientes="Açúcar, xarope de milho, aromatizantes naturais", imagem='pirulitos.jpeg', preco=6.45)
+
+Produtos.adicionar_produto(tipo='doces_frescos', nome="Trufa de Chocolate", descricao="Deliciosa trufa de chocolate com recheio cremoso. Feita com os melhores chocolates para uma experiência decadente e indulgente.", ingredientes="Chocolate amargo, creme de leite, cacau em pó", imagem="trufadechocolate.jpg", preco="3,00")
+
+Produtos.adicionar_produto(tipo='doces_frescos', nome="Brigadeiro Gourmet", descricao="Brigadeiro gourmet com chocolate belga. Uma versão indulgente de um clássico brasileiro, feito com ingredientes de alta qualidade para uma experiência excepcionalmente saborosa.", ingredientes="Chocolate belga, leite condensado, manteiga", imagem="brigadeirogourmet.jpg", preco="4,00")
+
+Produtos.adicionar_produto(tipo='doces_relaxantes', nome="Pudim de Leite", descricao="Pudim de leite condensado, macio e delicioso. Feito com ingredientes simples, mas com um sabor irresistível que vai te fazer relaxar e aproveitar cada mordida.", ingredientes="Leite condensado, ovos, leite", imagem="pudimdeleite.jpg", preco="20,00")
+
+Produtos.adicionar_produto(tipo='doces_relaxantes', nome="Torta de Limão", descricao="Torta de limão com merengue, doce e azedinha. Feita com suco de limão fresco e um merengue leve e aerado para uma sobremesa refrescante e reconfortante.", ingredientes="Biscoitos, manteiga, limão, ovos, açúcar", imagem="tortadelimao.jpg", preco="30,00")
+
+Produtos.adicionar_produto(tipo='doces_relaxantes', nome="Cheesecake de Frutas Vermelhas", descricao="Cheesecake cremoso com calda de frutas vermelhas. Uma combinação clássica e irresistível de sabores, perfeita para uma indulgência relaxante.", ingredientes="Cream cheese, açúcar, ovos, creme de leite, frutas vermelhas", imagem="cheesecake.jpg", preco="25,00")
+
+Produtos.adicionar_produto(tipo='doces_frescos', nome="Cupcake de Baunilha", descricao="Cupcake de baunilha com cobertura de chocolate. Um clássico favorito, com uma combinação perfeita de sabores e texturas para uma experiência doce e reconfortante.", ingredientes="Farinha de trigo, açúcar, ovos, baunilha, chocolate", imagem="cupcake.jpeg", preco="6,00")
+
+Produtos.adicionar_produto(tipo='doces_intensos', nome="Brownie de Chocolate", descricao="Brownie de chocolate intenso e úmido. Feito com chocolate de alta qualidade e ingredientes simples para uma sobremesa decadente e deliciosa.", ingredientes="Chocolate amargo, manteiga, açúcar, ovos, farinha de trigo", imagem="brownie.png", preco="8,00")
+
+Produtos.adicionar_produto(tipo='doces_intensos', nome="Cannoli", descricao="Cannoli italiano com recheio de ricota. Uma iguaria clássica da culinária italiana, com uma massa crocante e um recheio cremoso e levemente doce.", ingredientes="Farinha de trigo, ricota, açúcar, chocolate", imagem="cannoli.jpeg", preco="10,00")
+
+Produtos.adicionar_produto(tipo='doces_intensos', nome="Éclair de Chocolate", descricao="Éclair recheado com creme de chocolate. Uma sobremesa clássica francesa, com uma massa leve e um recheio rico e cremoso para uma indulgência verdadeiramente luxuosa.", ingredientes="Farinha de trigo, ovos, manteiga, chocolate, creme de leite", imagem="eclair.jpg", preco="7,00")
+
+Produtos.adicionar_produto(tipo='doces_intensos', nome="Petit Gateau", descricao="Petit gateau com centro de chocolate derretido. Uma sobremesa decadente e indulgente, com um exterior macio e um centro derretido de chocolate para uma explosão de sabor em cada mordida.", ingredientes="Chocolate meio amargo, manteiga, açúcar, ovos, farinha de trigo", imagem="petitgateau.png", preco="15,00")
+conexao.close()

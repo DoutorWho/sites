@@ -1,0 +1,193 @@
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/*Parte do nav */
+.nav {
+    font-family: 'Urbanist', sans-serif;
+    color: #401519;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 10vh; /* Altura da tela inteira */
+    width: 100%; /* Largura da tela inteira */
+    position: relative;
+    transition: all 0.3s ease;
+    background-color: #FF6347; /* Cor vibrante (você pode ajustar) */
+    padding: 0 2vh;
+}
+
+.nav img {
+    width: 10vh;
+    height: 10vh;
+    border-radius: 10px;
+}
+
+#logo {
+    width: 15vh;
+    height: 10vh;
+}
+
+/*Parte dos textos do nav*/
+#sobre {
+    margin-left: 0vh;
+    color: inherit;
+    text-decoration: none;
+}
+#perfil {
+    color: inherit;
+    text-decoration: none; 
+}
+
+#nav_mensagem {
+    font-size: 4vh;
+    text-decoration: none;
+}
+
+#cadastro {
+    margin-right: 0.5vh;
+}
+
+#entrar {
+    margin-right: 5vh;
+
+}
+
+#text2 {
+    margin-left: 20vh;
+    text-align: center;
+    font-size: 3vh;
+    font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap;
+    animation: type 4s steps(40, end);
+}
+
+/*Parte do sobre*/
+
+#pagina_inicial1 {
+    position: absolute;
+    left: 20vh;
+    text-decoration: none;
+    color: inherit;
+}
+#perfilsobre {
+    position: absolute;
+    left: 50vh;
+    text-decoration: none;
+    color: inherit;
+
+}
+
+#text3 {
+    position: absolute;   /* Posicionamento absoluto dentro do nav */
+    left: 50%;            /* Move para 50% da largura do nav */
+    transform: translateX(-50%); /* Ajusta para trás pela metade de sua própria largura */
+    width: auto;          /* Permite que o tamanho seja o necessário para o conteúdo */
+}
+
+/*Parte perfil*/
+#sobreemperfil {
+    position: absolute;
+    left: 50vh;
+    text-decoration: none;
+    color: inherit;
+
+}
+@media screen and (max-width: 600px) {
+    .nav {
+        height: auto;
+        padding: 2vh 1vh;
+        flex-direction: column;
+    }
+    .nav img {
+        width: 20vh;
+        height: 20vh;
+        border-radius: 10px;
+    }
+
+    #nav_mensagem, #sobre, #perfil, #perfilsobre, #pagina_inicial, .foto_perfil, #cadastro, #entrar, #carrinho {
+        transform: none;
+        width: auto;
+        height: auto;
+        margin: 1vh 0;
+        font-size: 3vh;
+    }
+
+    #text1 {
+        transform: none;
+        width: auto;
+        height: auto;
+        margin: 1vh 0;
+        font-size: 1em; /* Tamanho maior para telas estreitas */  
+    }
+    #text2 {
+        transform: none;
+        width: auto;
+        height: auto;
+        margin: 1vh 0;
+        font-size: 1em; /* Tamanho maior para telas estreitas */
+    }
+    #pagina_inicial1 {
+        position: absolute;
+        margin-top: 10vh;
+        text-decoration: none;
+        color: inherit;
+    }
+    #pagina_inicial1 p {
+        font-size: 1.5em; /* Tamanho maior para telas estreitas */
+    }
+    #text3 {
+        margin-top: 8vh;
+        position: relative;
+        left: 23vh;
+        padding-left: 10vh;
+        text-align: center;
+    }
+    #sobreemperfil {
+        position: absolute;
+        margin-top: 25vh;
+        padding-top: 2.5vh;
+        left: 18vh;
+        text-decoration: none;
+        color: inherit;
+    }
+    #sobreemperfil p {
+        font-size: 1.5em;
+    }
+    .foto_perfil {
+        position: relative;
+        margin-top: 10vh;
+        width: 2em;
+        height: 2em;
+    }
+
+}
+
+/* Efeito de mudança de cor ao passar o mouse */
+#nav_mensagem:hover {
+    color: #FFA500; /* Cor laranja (você pode ajustar) */
+    text-decoration: none; /* Remover sublinhado ao passar o mouse */
+}
+
+/*Parte dos comentários que é mostrado na tela*/
+#perfilsobre, #pagina_inicial, .foto_perfil, #carrinho {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Footer */
+#footer {
+    width: 100%;
+    border-top: 3px solid #bdc3c7;
+    background: gray;
+}
+footer {
+    flex-shrink: 0;
+    text-align: center;
+    font-size: 16px;
+}

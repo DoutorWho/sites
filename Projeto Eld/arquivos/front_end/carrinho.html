@@ -1,67 +1,76 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/carrinho.css') }}">
+    <script src="{{ url_for('static', filename='script/carrinho.js') }}"></script>
+    {% extends 'nav_html.html' %}
     <title>Carrinho</title>
 </head>
 <body>
-    <nav class='nav'>
-        <img id="logo" src="{{ url_for('static', filename='img/pagina_inicial/logo.png') }}">
-        <a href="/sobre" id="sobre"><img src="{{ url_for('static', filename='img/pagina_inicial/historia_da_loja.png')}}"></a>
-        <a href="/perfil" id="perfil"><img src="{{ url_for('static', filename='img/pagina_inicial/perfil.png') }}"></a>
-        <h2 id="text2">Bem-vindo(a) {{ usuario }}! Acesse nossas abas</h2>
-    </nav>
+    {% block pagina_inicial %}
+    {% endblock %}
 
-    <main>
-        <h1>Seu carrinho</h1>
-        {% if lista == [] %}
-            <h1>Você não tem itens adicionados ao seu carrinho!</h1>
-        {% else %}
+    {% block padrao_sem_perfil %}
+    {% endblock %}
+
+    {% block padrao_com_perfil %}
+        {{ super() }}
+        <main>
+            <div class="header-carrinho">
+                <h1 class="titulo-carrinho">Seu carrinho</h1>
+            </div>
+            {% if lista != [] %}
                 <div class="tabelas">
-                    <h1>Produtos adicionados ao seu carrinho!</h1>
+                    <h2 class="titulo-produtos">Produtos adicionados ao seu carrinho!</h2>
                 </div>
+                <div class="carrinho-container">
                     <div class="status">
                         {% for produto in lista %}
-                        <div class="produtos">
-                            <form action="/carrinhoform/submit_form" method="post">
-                                <h2>{{ produto[2] }}</h2>
-                                <p>{{ produto[3] }}</p>
-                                <img class  = 'imagem' src="{{ url_for('static', filename='img/compras/' + produto[4]) }}" alt="Imagen não carregada">
-                                <p>Tipo do produto: {{ produto[1].replace('_', ' ').title() }}</p>
-                                <p>R${{ produto[5] }}</p>
-                                <p>Quantidade: {{ produto[6] }}</p>
-                                <p>Total a pagar: R${{ ('%.2f' | format(((produto[5].replace(',','.') | float) * produto[6]))).replace('.', ',') }}</p>
-                                <input type="hidden" name="idCarrinho", value="{{ produto[0] }}">
-                                <input type="hidden" name="preco" value="{{ produto[5] }}">
-                                <input type="hidden" name="quantidade" value="{{ produto[6] }}">
-                                <input type="submit" name="comprar" value="Compra">
-                                <hr>
-                                <input type="submit" name="excluir" value="Excluir">
-                            </form>
-                        </div>
+                            <div class="produto">
+                                <img class="imagem-produto" src="{{ url_for('static', filename='img/compras/' + produto[4]) }}" alt="Imagem não carregada">
+                                <div class="info-produto">
+                                    <h3 class="nome-produto">{{ produto[2] }}</h3>
+                                    <p class="tipo-produto">Tipo de produto: {{ produto[1].replace('_', ' ').title() }}</p>
+                                    <p class="preco-produto">Preço: R${{ produto[5] }}</p>
+                                    <div class="quantidade-e-checkbox">
+                                        <label for="quantidade-produto">Quantidade: </label>
+                                        <input type="hidden" name="produto" value="{{ produto[2] }}">
+                                        <input class="idCarrinho" type="hidden" name="idCarrinho" value="{{ produto[0] }}">
+                                        <input class="quantidade-produto" type="number" min="1" max="20" name="quantidade" value="{{ produto[6] }}" oninput="calcularTotal()">
+                                        <input class="preco_produto" type="hidden" name="preco_produto" value="{{  (produto[5] | string).replace(',','.') }}">
+                                        <input class="comprar-checkbox" type="checkbox" name="comprar" value="OK" onclick="calcularTotal()">
+                                    </div>
+                                    <form action="/comprarprodutoform/submit_form" method="post">
+                                        <input type="hidden" name="idCarrinho" value="{{ produto[0] }}">
+                                        <input type="hidden" name="status" value="excluir">
+                                        <button class="botao-excluir">Excluir</button>
+                                    </form>
+                                </div>
+                            </div>
                         {% endfor %}
                     </div>
-        {% endif %}
-    {% if status != None %}
-        <div>
-            <hr>
-            <h1>Status da sua compra!</h1>
-            {% if status == 'compra_sucesso' %}
-                <h1>Compra realizada com sucesso!</h1>
-            {% elif status == 'excluido' %}
-                <h1>Produto excluído com sucesso!</h1>
-            {% elif status == 'sem_dinheiro' %}
-                <h1>Você não tem dinheiro para comprar isso!</h1>
+                    <div class="mostrar_total">
+                        <p>Total de produtos: <span id="total-produtos">0</span></p>
+                        <p>Total a ser pago: R$<span id="total-valor">0.00</span></p>
+                        <form id="compra-form" action="/comprarprodutoform/submit_form" method="post">
+                            <input type="hidden" name="status" value="comprar">
+                            <input type="hidden" name="nome-produtos" id="nome-produtos" value="">
+                            <input type="hidden" name="carrinho-produtos" id="carrinho-produtos" value="">
+                            <input type="hidden" name="quantidade-total" id="quantidade-total" value="">
+                            <input type="hidden" name="preco-total" id="preco-total" value="">
+                            <button type="submit">Fechar pedido</button>
+                        </form>
+                    </div>
+                </div>
+            {% else %}
+                <h2 class="mensagem-vazio">Você não tem itens adicionados no seu carrinho!</h2>
             {% endif %}
-        </div>
-    {% endif %}
-    </main>
-
-    <footer>
-        <hr id="hr1">
-        Todos os direitos reservados
-    </footer>
+        </main>
+    {% endblock %}
+    {% block footer %}
+        {{ super() }}
+    {% endblock %}
 </body>
 </html>

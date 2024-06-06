@@ -1,0 +1,40 @@
+/* Estilize as notificações aqui */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.notificacao_viu {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px; /* Aumentei a margem inferior para mais separação */
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #4F4F4F;
+}
+
+.notificacao_nao_viu {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px; /* Aumentei a margem inferior para mais separação */
+    background-color: #00FA9A;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);   
+}
+
+
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
